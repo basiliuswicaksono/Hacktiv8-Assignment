@@ -40,6 +40,6 @@ func ConnectDB() *gorm.DB {
 	return db
 }
 
-// func GetDB() *gorm.DB {
-// 	return db
-// }
+func GetDB() *gorm.DB {
+	return db
+}

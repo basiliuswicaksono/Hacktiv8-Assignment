@@ -115,21 +115,18 @@ func (u *UserController) UpdateUser(ctx *gin.Context) {
 	email, _ := ctx.Get("email")
 
 	var (
-		userUpdateValildation UserUpdateValidation
-		err                   error
-		userDB                models.User
-		user                  models.User
+		userUpdate UserUpdateValidation
+		err        error
+		userDB     models.User
 	)
 
-	err = ctx.ShouldBindJSON(&user)
+	err = ctx.ShouldBindJSON(&userUpdate)
 	if err != nil {
 		badRequestJsonResponse(ctx, err.Error())
 		return
 	}
 
-	userUpdateValildation.Email = user.Email
-	userUpdateValildation.Username = user.Username
-	_, errUpdate := govalidator.ValidateStruct(&userUpdateValildation)
+	_, errUpdate := govalidator.ValidateStruct(&userUpdate)
 	if errUpdate != nil {
 		badRequestJsonResponse(ctx, errUpdate.Error())
 		return
@@ -145,7 +142,7 @@ func (u *UserController) UpdateUser(ctx *gin.Context) {
 		return
 	}
 
-	err = u.db.Model(&userDB).Updates(user).Error
+	err = u.db.Model(&userDB).Updates(models.User{Username: userUpdate.Username, Email: userUpdate.Email}).Error
 	if err != nil {
 		var newErr map[string]interface{}
 		byteErr, _ := json.Marshal(err)
