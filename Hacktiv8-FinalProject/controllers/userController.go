@@ -51,13 +51,6 @@ func (u *UserController) Register(ctx *gin.Context) {
 		return
 	}
 
-	// response := params.UserRegisterResponse{
-	// 	ID:       user.ID,
-	// 	Username: user.Username,
-	// 	Email:    user.Email,
-	// 	Age:      user.Age,
-	// }
-
 	writeJsonResponse(ctx, http.StatusCreated, gin.H{
 		"id":       user.ID,
 		"email":    user.Email,
